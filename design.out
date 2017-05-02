@@ -1,0 +1,105 @@
+*************************************************************************************
+***                                                                               ***
+*** ADIsimPE Version 8.00p (x86) - 02/05/2017 10:48 a. m.                         ***
+*** Platform: Windows 8.1                                                         ***
+*** Architecture: x64                                                             ***
+*** Serial Number:                                                                ***
+*** User:                                                                         ***
+***                                                                               ***
+*** TITLE:   * C:\Users\USUARIO\Documents\GitHub\WaveShaperAD9833\Circuito_1.wxsch***
+*** NETLIST: C:\Users\USUARIO\Documents\GitHub\WaveShaperAD9833\design.net        ***
+***                                                                               ***
+*************************************************************************************
+
+********************************************************************************
+***                                                                          ***
+***                                Input Deck                                ***
+***                                                                          ***
+********************************************************************************
+
+#SIMETRIX
+V1 Vcc 0 18
+V2 Vee 0 -18
+R1 R1_P R1_N 19.6k
+V3 VIN_8422 0 0 Sin(500m 450m 500k 0 0)
+R2 VOUT_8422 0 10Meg
+V4 VIN_8421 0 5 Sin(500m 450m 500k 0 0)
+R3 R3_P R3_N 9.801k
+R4 VOUT_8421 0 10Meg
+X$U1 0 R1_P R1_N VIN_8422 Vee 0 VOUT_8422 Vcc AD8422 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
+X$U2 0 R3_P R3_N VIN_8421 Vee 0 VOUT_8421 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
+.GRAPH VIN_8421 curveLabel= VIN_8421 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.GRAPH VOUT_8421 curveLabel= VOUT_8421 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.GRAPH VIN_8422 curveLabel= VIN_8422 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.GRAPH VOUT_8422 curveLabel= VOUT_8422 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.TRAN 300u
+.ENDS AD8421
+.ENDS AD8422
+
+********************************************************************************
+***                                                                          ***
+*** Starting Transient analysis at 10:48 a. m.                               ***
+***                                                                          ***
+*** Analysis card: .TRAN 300u                                                ***
+***                                                                          ***
+********************************************************************************
+********************************************************************************
+***                                                                          ***
+***                            Simulation Options                            ***
+***                                                                          ***
+********************************************************************************
+RELTOL                    0.001
+ABSTOL                    1e-012
+VNTOL                     1e-006
+POINTTOL                  0.001
+TEMPERATURE               27C
+GMIN                      1e-012
+Matrix Solver             UF KLU Version 1.1
+
+
+
+********************************************************************************
+***                                                                          ***
+***                             Device parameters                            ***
+***                                                                          ***
+********************************************************************************
+
+Analysis statistics
+===================
+
+Nominal temperature = 27
+Operating temperature = 27
+Total iterations = 5978
+Transient iterations = 5965
+Transient timepoints = 1817
+Accepted timepoints = 1813
+Total analysis time = 0.531
+Transient time = 0
+Matrix reordering time = 0
+L-U decomposition time = 0
+Matrix solve time = 0
+Load time = 0
+Transient L-U decomp time = 0
+Transient solve time = 0
+Circuit build time = 0.016
+Simulator initialise time = 0
+Data write time = 0
+Convergence test time = 0
+LTE time = 0
+JI2 Iterations = 13
+Diag. GMIN stepping iterations = 0
+Junc. GMIN stepping iterations = 0
+Source stepping iterations = 0
+PTA iterations = 0
+Number of matrix fill ins = -287
+Number of initial matrix elements = 598
+Circuit equations = 211
+State vector size = 490
+Number of write buffer faults = 0
+
+Run statistics
+==============
+
+Netlist read in time = 0.016
+Total run time = 0.875 seconds
+Analysis concluded 02/05/2017 10:48 a. m.
