@@ -1,6 +1,6 @@
 *************************************************************************************
 ***                                                                               ***
-*** ADIsimPE Version 8.00p (x86) - 02/05/2017 11:25 a. m.                         ***
+*** ADIsimPE Version 8.00p (x86) - 02/05/2017 5:43 p. m.                          ***
 *** Platform: Windows 8.1                                                         ***
 *** Architecture: x64                                                             ***
 *** Serial Number:                                                                ***
@@ -18,18 +18,23 @@
 ********************************************************************************
 
 #SIMETRIX
+X1 VOUT_AD8421_2 VOUT_FINAL Vcc Vee X1_out Q2_B AD844 pinnames: inp inn vsp vsn out gnd
 V1 Vcc 0 18
 V2 Vee 0 -18
-R1 VOUT_ADG849 0 10Meg
+R1 R1_P R1_N 1.523k
 V3 V3_P 0  Pulse(0 5 0 500n 500n 50u 100u)
+R2 VOUT_FINAL 0 1k
 V4 VIN_8421 0 5 Sin(500m 450m 500k 0 0)
 R3 R3_P R3_N 9.801k
 V5 +5V 0 5
 X$U1 V3_P +5V 0 VOUT_8421 VOUT_ADG849 0 ADG849 pinnames: IN VDD GND S1 D S2
 X$U2 0 R3_P R3_N VIN_8421 Vee 0 VOUT_8421 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
-.GRAPH VIN_8421 curveLabel= VIN_8421 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
-.GRAPH VOUT_8421 curveLabel= VOUT_8421 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
-.GRAPH VOUT_ADG849 curveLabel= VOUT_ADG849 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+Q1 Vcc Q2_B VOUT_FINAL 0 BC107
+X$U3 0 R1_P R1_N VOUT_ADG849 Vee 0 VOUT_AD8421_2 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
+Q2 Vee Q2_B VOUT_FINAL 0 BC160
+.GRAPH VOUT_AD8421_2 curveLabel= VOUT_AD8421_2 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.GRAPH V3_P curveLabel= U1-IN nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.GRAPH VOUT_FINAL curveLabel= VOUT_FINAL nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
 .TRAN 300u
 .ENDS AD8421
 .SUBCKT ADG849 1 2 3 4 5 6 
@@ -267,10 +272,138 @@ EBUFFER 602 604 607 604 1
 *      5  = D
 *      6  = S2
 *****************
+.SUBCKT AD844  1 2 99 50 28 12
+*
+* INPUT STAGE
+*
+R1   99  8     1E3
+R2   10 50     1E3
+V1   99  9     11
+D1   9   8     DX
+V2   11 50     11
+D2   10 11     DX
+I1   99  5     258E-6
+I2   4  50     258E-6
+Q1   50  3  5  QP
+Q2   99  3  4  QN
+Q3   8   6 30  QN
+Q4   10  7 30  QP
+R3   5   6     300E3
+R4   4   7     300E3
+*C1   99  6     8.8E-15
+*C2   50  7     8.8E-15
+*
+* INPUT ERROR SOURCES
+* 
+GB1  99  1     POLY(1)  1  22  150E-9  90E-9
+GB2  99 30     POLY(1)  1  22  200E-9  90E-9
+VOS  3   1     50E-6
+LS1  30  2     1E-8
+CS1  99  2     1E-12
+CS2  50  2     1E-12
+*
+EREF 97  0     22  0  1
+*
+* GAIN STAGE & DOMINANT POLE
+*
+R5   12 97     3E6
+C3   12 97     5.5E-12
+G1   97 12     99  8  1E-3
+G2   12 97     10 50  1E-3
+V3   99 13     4.3
+V4   14 50     4.3
+D3   12 13     DX
+D4   14 12     DX
+*
+* POLE AT 70 MHZ
+*
+R8  17 97     1E6
+C4  17 97     3.18E-15
+G4  97 17     12 22  1E-6
+*
+* POLE AT 300 MHZ
+*
+R12 21 97     1E6
+C8  21 97     0.318E-15
+G8  97 21     17 22  1E-6
+*
+* OUTPUT STAGE
+*
+ISY 99 50     5.1E-3
+R13 22 99     16.7E3
+R14 22 50     16.7E3
+R15 27 99     30
+R16 27 50     30
+L2  27 28     6E-8
+G9  25 50     21 27  33.33E-3
+G10 26 50     27 21  33.33E-3
+G11 27 99     99 21  33.33E-3
+G12 50 27     21 50  33.33E-3
+V5  23 27     0.5
+V6  27 24     0.5
+D5  21 23     DX
+D6  24 21     DX
+D7  99 25     DX
+D8  99 26     DX
+D9  50 25     DY
+D10 50 26     DY
+*
+* MODELS USED
+*
+.MODEL QN   NPN(BF=1E9 IS=1E-15)
+.MODEL QP   PNP(BF=1E9 IS=1E-15)
+.MODEL DX   D(IS=1E-15)
+.MODEL DY   D(IS=1E-15 BV=50)
+.ENDS
+*
+*File: ad844a.cir
+*
+* AD844A SPICE Macro-model                 
+* Description: Amplifier
+* Generic Desc: 60 MHz, 2000 V/us   Op Amp
+* Developed by: JCB / PMI
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (07/1991)
+* Copyright 1991, 2012 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*    
+* Parameters modeled include:
+* This version of the AD844 model simulates the worst case 
+* parameters of the 'A' grade.  The worst case parameters
+* used correspond to those in the data sheet. 
+*
+* END Notes
+*
+* Node assignments
+*              non-inverting input
+*              | inverting input
+*              | | positive supply
+*              | | |  negative supply
+*              | | |  |  output
+*              | | |  |  |  compensation node
+*              | | |  |  |  |
+.model BC160 pnp ( IS=2.48E-13 VAF=99.6 BF=170 IKF=0.9648 NE=1.7746
++    ISE=3.464E-12 IKR=0.1 ISC=1.00E-12 NC=1.4 NR=1 BR=10 RC=0.05 CJC=2.00E-11
++    FC=0.5 MJC=0.37 VJC=0.6 CJE=4.70E-11 MJE=0.44 VJE=0.6 TF=9.70E-10
++    ITF=1.9 VTF=3 XTF=25 RE=0.2 TR=9.00E-08)
+*From Philips SC04 "Small signal transistors 1991"
+* Hfe vs ic from NS Discrete 1978 @ vce = 10V. PS and MOT data @ vce=1v only. TR  from MPSA56
+.model BC107 npn ( IS=7.59E-15 VAF=73.4 BF=480 IKF=0.0962 NE=1.2665
++    ISE=3.278E-15 IKR=0.03 ISC=2.00E-13 NC=1.2 NR=1 BR=5 RC=0.25 CJC=6.33E-12
++    FC=0.5 MJC=0.33 VJC=0.65 CJE=1.25E-11 MJE=0.55 VJE=0.65 TF=4.26E-10
++    ITF=0.6 VTF=3 XTF=20 RB=100 IRB=0.0001 RBM=10 RE=0.5 TR=1.50E-07)
+*From Philips SC04 "Small signal transistors 1991"
+* Base spreading parameters (RB,IRB,RBM) estimated. TR derived using BCY58 data
 
 ********************************************************************************
 ***                                                                          ***
-*** Starting Transient analysis at 11:25 a. m.                               ***
+*** Starting Transient analysis at 5:43 p. m.                                ***
 ***                                                                          ***
 *** Analysis card: .TRAN 300u                                                ***
 ***                                                                          ***
@@ -295,14 +428,57 @@ Matrix Solver             UF KLU Version 1.1
 ***                             Device parameters                            ***
 ***                                                                          ***
 ********************************************************************************
+Model parameters for devices of type BJT
+========================================
+Model:       BC107        BC160        X1.QN        X1.QP        
+
+_is          7.59f        248f         1f           1f           
+bf           480          170          1G           1G           
+br           5            10           1            1            
+cjc          6.33p        20p          0            0            
+cje          12.5p        47p          0            0            
+fc           500m         500m         500m         500m         
+ikf          96.2m        964.8m       0            0            
+ikr          30m          100m         0            0            
+irb          100u         0            0            0            
+isc          200f         1p           0            0            
+ise          3.278f       3.464p       0            0            
+itf          600m         1.9          0            0            
+mjc          330m         370m         330m         330m         
+mje          550m         440m         330m         330m         
+nc           1.2          1.4          2            2            
+ne           1.2665       1.7746       1.5          1.5          
+nr           1            1            1            1            
+rb           100          0            0            0            
+rbm          10           0            0            0            
+rc           250m         50m          0            0            
+re           500m         200m         0            0            
+tf           426p         970p         0            0            
+tr           150n         90n          0            0            
+vaf          73.4         99.6         0            0            
+vjc          650m         600m         750m         750m         
+vje          650m         600m         750m         750m         
+vtf          3            3            0            0            
+xtf          20           25           0            0            
+
+
 Model parameters for devices of type Diode
 ==========================================
 Model:       U1.DX        U1.X1.X3.DZ  U1.X1.X4.DX  U1.X2.X3.DZ  U1.X2.X4.DX  
 
+bv           0            0            0            0            0            
 is           1p           10f          1p           10f          1p           
 kf           0            0            0            0            0            
 n            500m         40m          500m         40m          500m         
 rs           100m         0            100m         0            100m         
+
+Model:       X1.DX        X1.DY        
+
+bv           0            50           
+is           1f           1f           
+kf           0            0            
+n            1            1            
+rs           0            0            
 
 
 Model parameters for devices of type Switch
@@ -329,11 +505,11 @@ von          2.7          5.5          2
 
 Nominal temperature = 27
 Operating temperature = 27
-Total iterations = 4637
-Transient iterations = 4624
-Transient timepoints = 2115
-Accepted timepoints = 2055
-Total analysis time = 0.656
+Total iterations = 12753
+Transient iterations = 12723
+Transient timepoints = 3322
+Accepted timepoints = 3132
+Total analysis time = 1.844
 Transient time = 0
 Matrix reordering time = 0
 L-U decomposition time = 0
@@ -342,24 +518,24 @@ Load time = 0
 Transient L-U decomp time = 0
 Transient solve time = 0
 Circuit build time = 0.031
-Simulator initialise time = 0
+Simulator initialise time = 0.016
 Data write time = 0
 Convergence test time = 0
 LTE time = 0
-JI2 Iterations = 13
+JI2 Iterations = 30
 Diag. GMIN stepping iterations = 0
 Junc. GMIN stepping iterations = 0
 Source stepping iterations = 0
 PTA iterations = 0
-Number of matrix fill ins = -204
-Number of initial matrix elements = 434
-Circuit equations = 150
-State vector size = 466
+Number of matrix fill ins = -408
+Number of initial matrix elements = 917
+Circuit equations = 291
+State vector size = 1054
 Number of write buffer faults = 0
 
 Run statistics
 ==============
 
-Netlist read in time = 0.016
-Total run time = 1.109 seconds
-Analysis concluded 02/05/2017 11:25 a. m.
+Netlist read in time = 0.063
+Total run time = 1.953 seconds
+Analysis concluded 02/05/2017 5:43 p. m.
