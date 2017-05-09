@@ -1,6 +1,6 @@
 *************************************************************************************
 ***                                                                               ***
-*** ADIsimPE Version 8.00p (x86) - 02/05/2017 5:43 p. m.                          ***
+*** ADIsimPE Version 8.00p (x86) - 09/05/2017 11:02 a. m.                         ***
 *** Platform: Windows 8.1                                                         ***
 *** Architecture: x64                                                             ***
 *** Serial Number:                                                                ***
@@ -27,23 +27,22 @@ R2 VOUT_FINAL 0 1k
 V4 VIN_8421 0 5 Sin(500m 450m 500k 0 0)
 R3 R3_P R3_N 9.801k
 V5 +5V 0 5
-X$U1 V3_P +5V 0 VOUT_8421 VOUT_ADG849 0 ADG849 pinnames: IN VDD GND S1 D S2
 X$U2 0 R3_P R3_N VIN_8421 Vee 0 VOUT_8421 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
 Q1 Vcc Q2_B VOUT_FINAL 0 BC107
 X$U3 0 R1_P R1_N VOUT_ADG849 Vee 0 VOUT_AD8421_2 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
 Q2 Vee Q2_B VOUT_FINAL 0 BC160
+X$U4 V3_P +5V 0 VOUT_8421 VOUT_ADG849 0 ADG819 pinnames: IN VDD GND S1 D S2
 .GRAPH VOUT_AD8421_2 curveLabel= VOUT_AD8421_2 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
 .GRAPH V3_P curveLabel= U1-IN nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
 .GRAPH VOUT_FINAL curveLabel= VOUT_FINAL nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
 .TRAN 300u
-.ENDS AD8421
-.SUBCKT ADG849 1 2 3 4 5 6 
+.SUBCKT ADG819 1 2 3 4 5 6 
 X1 4 5 1 2 3 LOWONSWITCH
 X2 6 5 1 2 3 HIGHONSWITCH
 DINA 1 2 DX
 DINB 3 1 DX
-CIN 1 3 2.5p
-CC 4 6 0.5p
+CIN 1 3 5p
+CC 4 6 0.637p
 .MODEL DX D(IS=1E-12 N=0.5 RS=0.1)
 ****************
 * Logic High On Switch
@@ -95,13 +94,13 @@ DS2 205 201 DX
 DD1 202 204 DX
 DD2 205 202 DX
 *ON OFF ISOLATION*
-CSD 201 202 40.219p
+CSD 201 202 17.952p
 *BANDWIDTH  
-CSB 201 204 20p
-CDB 202 204 20p
+CSB 201 204 100p
+CDB 202 204 100p
 *CHARGE INJECTION
-CGS 201 203 28p
-CGD 202 203 28p
+CGS 201 203 12p
+CGD 202 203 12p
 *MODELS USED
 .MODEL SMOD1 VSWITCH(RON=0.5 ROFF=3.5E11 VON=2 VOFF=0.8)
 .MODEL DX D(IS=1E-12 N=0.5 RS=0.1)
@@ -116,10 +115,10 @@ CGD 202 203 28p
 *****************
 .SUBCKT ENABLEDELAY 301 302 303
 EENBUFFER 304 302 301 302 1
-RFEN 304 306 11k
+RFEN 304 306 35k
 CFEN 306 302 2.0p
 DBREAKEN 306 305 DZ
-RBEN 305 304 10k
+RBEN 305 304 6k
 EENBUFFEROUT 303 302 306 302 1 
 *MODELS USED
 .MODEL DZ D(IS=1E-14 N=0.04)
@@ -193,13 +192,13 @@ DS2 205 201 DX
 DD1 202 204 DX
 DD2 205 202 DX
 *ON OFF ISOLATION*
-CSD 201 202 40.219p
+CSD 201 202 17.952p
 *BANDWIDTH  
-CSB 201 204 20p
-CDB 202 204 20p
+CSB 201 204 100p
+CDB 202 204 100p
 *CHARGE INJECTION
-CGS 201 203 28p
-CGD 202 203 28p
+CGS 201 203 12p
+CGD 202 203 12p
 *MODELS USED
 .MODEL SMOD1 VSWITCH(RON=0.5 ROFF=3.5E11 VON=2 VOFF=0.8)
 .MODEL DX D(IS=1E-12 N=0.5 RS=0.1)
@@ -214,10 +213,10 @@ CGD 202 203 28p
 *****************
 .SUBCKT ENABLEDELAY 301 302 303
 EENBUFFER 304 302 301 302 1
-RFEN 304 306 11k
+RFEN 304 306 35k
 CFEN 306 302 2.0p
 DBREAKEN 306 305 DZ
-RBEN 305 304 10k
+RBEN 305 304 6k
 EENBUFFEROUT 303 302 306 302 1 
 *MODELS USED
 .MODEL DZ D(IS=1E-14 N=0.04)
@@ -243,14 +242,14 @@ EBUFFER 602 604 607 604 1
 .ENDS
 .ENDS
 *
-*File: ADG859.cir
+*File: ADG820.cir
 *
-* ADG859 MACROMODEL
+* ADG820 MACROMODEL
 * Description: Converter
-* Generic Desc: 5v 2:1 Mux/SPDT Switch I.C.
+* Generic Desc: Sub 1 Ohm  Low Voltage, SPDT Switches
 * Developed by: Y.WONG 
 * Revision History: 08/10/2012 - Updated to new header style
-* 1.0 (08/2008)
+* 1.0 (05/2008)
 * Copyright 2012 by Analog Devices, Inc.
 *
 * Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model 
@@ -272,6 +271,7 @@ EBUFFER 602 604 607 604 1
 *      5  = D
 *      6  = S2
 *****************
+.ENDS AD8421
 .SUBCKT AD844  1 2 99 50 28 12
 *
 * INPUT STAGE
@@ -403,7 +403,7 @@ D10 50 26     DY
 
 ********************************************************************************
 ***                                                                          ***
-*** Starting Transient analysis at 5:43 p. m.                                ***
+*** Starting Transient analysis at 11:02 a. m.                               ***
 ***                                                                          ***
 *** Analysis card: .TRAN 300u                                                ***
 ***                                                                          ***
@@ -464,7 +464,7 @@ xtf          20           25           0            0
 
 Model parameters for devices of type Diode
 ==========================================
-Model:       U1.DX        U1.X1.X3.DZ  U1.X1.X4.DX  U1.X2.X3.DZ  U1.X2.X4.DX  
+Model:       U4.DX        U4.X1.X3.DZ  U4.X1.X4.DX  U4.X2.X3.DZ  U4.X2.X4.DX  
 
 bv           0            0            0            0            0            
 is           1p           10f          1p           10f          1p           
@@ -483,7 +483,7 @@ rs           0            0
 
 Model parameters for devices of type Switch
 ===========================================
-Model:       U1.X1.x1.    U1.X1.X2.    U1.X1.X2.    U1.X1.X4.    U1.X2.x1.    
+Model:       U4.X1.x1.    U4.X1.X2.    U4.X1.X2.    U4.X1.X4.    U4.X2.x1.    
              SMOD2        SMOD3        SMOD4        SMOD1        SMOD2        
 
 roff         100G         100G         100G         350G         100G         
@@ -491,7 +491,7 @@ ron          1m           1m           1m           500m         1m
 voff         800m         2.6          5.6          800m         2            
 von          2            2.7          5.5          2            800m         
 
-Model:       U1.X2.X2.    U1.X2.X2.    U1.X2.X4.    
+Model:       U4.X2.X2.    U4.X2.X2.    U4.X2.X4.    
              SMOD3        SMOD4        SMOD1        
 
 roff         100G         100G         350G         
@@ -505,11 +505,11 @@ von          2.7          5.5          2
 
 Nominal temperature = 27
 Operating temperature = 27
-Total iterations = 12753
-Transient iterations = 12723
-Transient timepoints = 3322
-Accepted timepoints = 3132
-Total analysis time = 1.844
+Total iterations = 12059
+Transient iterations = 12029
+Transient timepoints = 3262
+Accepted timepoints = 3087
+Total analysis time = 0.719
 Transient time = 0
 Matrix reordering time = 0
 L-U decomposition time = 0
@@ -517,7 +517,7 @@ Matrix solve time = 0
 Load time = 0
 Transient L-U decomp time = 0
 Transient solve time = 0
-Circuit build time = 0.031
+Circuit build time = 0
 Simulator initialise time = 0.016
 Data write time = 0
 Convergence test time = 0
@@ -536,6 +536,6 @@ Number of write buffer faults = 0
 Run statistics
 ==============
 
-Netlist read in time = 0.063
-Total run time = 1.953 seconds
-Analysis concluded 02/05/2017 5:43 p. m.
+Netlist read in time = 0.109
+Total run time = 0.906 seconds
+Analysis concluded 09/05/2017 11:02 a. m.
