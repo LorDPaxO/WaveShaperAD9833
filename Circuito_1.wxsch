@@ -558,7 +558,7 @@ Property name="StyleNormal" value="DefaultInstance" autopos=1 normal=Left rotate
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="value" value="ADG819" autopos=1 normal=Right rotated=Top font=Default order=1
 Property name="REF" value="U4" autopos=1 normal=Right rotated=Top font=Default order=2
-Netnames
+Netnames pin1="V3_P" pin2="+5V" pin3="0" pin4="VOUT_8421" pin5="VOUT_ADG849" pin6="0"
 .EndInstance
 .Instance
 Attributes type=symbol name="dc_source" selected=0 protected=0 x=-67800 y=-13200 orient=N0 
@@ -588,11 +588,11 @@ Property name="REF" value="V3" autopos=1 normal=Right rotated=Bottom font=Defaul
 Netnames pin1="V3_P" pin2="0"
 .EndInstance
 .Instance
-Attributes type=symbol name="vsrc" selected=0 protected=0 x=-65640 y=-11280 orient=N0 
+Attributes type=symbol name="vsrc" selected=1 protected=0 x=-65640 y=-11280 orient=N0 
 Property name="MODEL" value="V" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultInstance" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
-Property name="value" value="5 Sin(500m 450m 500k 0 0)" autopos=1 normal=Right rotated=Top font=Default order=1
+Property name="value" value="5 Pulse(0 650m 0 50n 50n 5u 10u)" autopos=1 normal=Right rotated=Top font=Default order=1
 Property name="REF" value="V4" autopos=1 normal=Right rotated=Bottom font=Default order=2
 Netnames pin1="VIN_8421" pin2="0"
 .EndInstance
@@ -774,42 +774,42 @@ Property name="NetName" value="VOUT_8421" autopos=1 normal=Left rotated=Left vis
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-63240 y1=-12000 x2=-63240 y2=-11880 net="VOUT_8421" branch="-:U1#S1"
+Wire x1=-63240 y1=-12000 x2=-63240 y2=-11880 net="VOUT_8421" branch="-:U4#S1"
 .Wire
 Attributes x1=-63240 y1=-12000 x2=-63240 y2=-11880 
-Property name="BranchFormula" value="-:U1#S1" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="-:U4#S1" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="VOUT_8421" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-63240 y1=-12000 x2=-61680 y2=-12000 net="VOUT_8421" branch="+:U1#S1"
+Wire x1=-63240 y1=-12000 x2=-61680 y2=-12000 net="VOUT_8421" branch="+:U4#S1"
 .Wire
 Attributes x1=-63240 y1=-12000 x2=-61680 y2=-12000 
-Property name="BranchFormula" value="+:U1#S1" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="+:U4#S1" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="VOUT_8421" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-63240 y1=-11880 x2=-62880 y2=-11880 net="VOUT_8421" branch="-:U2#OUT-:U1#S1"
+Wire x1=-63240 y1=-11880 x2=-62880 y2=-11880 net="VOUT_8421" branch="-:U2#OUT-:U4#S1"
 .Wire
 Attributes x1=-63240 y1=-11880 x2=-62880 y2=-11880 
-Property name="BranchFormula" value="-:U2#OUT-:U1#S1" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="-:U2#OUT-:U4#S1" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="VOUT_8421" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-62280 y1=-11760 x2=-62280 y2=-11400 net="0" branch="-:U1#S2"
+Wire x1=-62280 y1=-11760 x2=-62280 y2=-11400 net="0" branch="-:U4#S2"
 .Wire
 Attributes x1=-62280 y1=-11760 x2=-62280 y2=-11400 
-Property name="BranchFormula" value="-:U1#S2" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="-:U4#S2" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="0" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-62280 y1=-11760 x2=-61680 y2=-11760 net="0" branch="+:U1#S2"
+Wire x1=-62280 y1=-11760 x2=-61680 y2=-11760 net="0" branch="+:U4#S2"
 .Wire
 Attributes x1=-62280 y1=-11760 x2=-61680 y2=-11760 
-Property name="BranchFormula" value="+:U1#S2" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="+:U4#S2" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="0" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
@@ -822,10 +822,10 @@ Property name="NetName" value="V3_P" autopos=1 normal=Left rotated=Left visible=
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-61920 y1=-11520 x2=-61680 y2=-11520 net="V3_P" branch="+:U1#IN"
+Wire x1=-61920 y1=-11520 x2=-61680 y2=-11520 net="V3_P" branch="+:U4#IN"
 .Wire
 Attributes x1=-61920 y1=-11520 x2=-61680 y2=-11520 
-Property name="BranchFormula" value="+:U1#IN" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="+:U4#IN" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="V3_P" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
@@ -838,26 +838,26 @@ Property name="NetName" value="0" autopos=1 normal=Left rotated=Left visible=0 f
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-61320 y1=-12600 x2=-61320 y2=-12360 net="+5V" branch="+:U1#VDD"
+Wire x1=-61320 y1=-12600 x2=-61320 y2=-12360 net="+5V" branch="+:U4#VDD"
 .Wire
 Attributes x1=-61320 y1=-12600 x2=-61320 y2=-12360 
-Property name="BranchFormula" value="+:U1#VDD" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="+:U4#VDD" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="+5V" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-61320 y1=-11160 x2=-61320 y2=-10920 net="0" branch="-:U1#GND"
+Wire x1=-61320 y1=-11160 x2=-61320 y2=-10920 net="0" branch="-:U4#GND"
 .Wire
 Attributes x1=-61320 y1=-11160 x2=-61320 y2=-10920 
-Property name="BranchFormula" value="-:U1#GND" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="-:U4#GND" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="0" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-60840 y1=-11880 x2=-60600 y2=-11880 net="VOUT_ADG849" branch="-:U1#D"
+Wire x1=-60840 y1=-11880 x2=-60600 y2=-11880 net="VOUT_ADG849" branch="-:U4#D"
 .Wire
 Attributes x1=-60840 y1=-11880 x2=-60600 y2=-11880 
-Property name="BranchFormula" value="-:U1#D" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="-:U4#D" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="VOUT_ADG849" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
@@ -870,10 +870,10 @@ Property name="NetName" value="VOUT_ADG849" autopos=1 normal=Left rotated=Left v
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 .EndWire
-Wire x1=-60600 y1=-11880 x2=-60480 y2=-11880 net="VOUT_ADG849" branch="-:U1#D-:U3#IN-"
+Wire x1=-60600 y1=-11880 x2=-60480 y2=-11880 net="VOUT_ADG849" branch="-:U4#D-:U3#IN-"
 .Wire
 Attributes x1=-60600 y1=-11880 x2=-60480 y2=-11880 
-Property name="BranchFormula" value="-:U1#D-:U3#IN-" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
+Property name="BranchFormula" value="-:U4#D-:U3#IN-" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="NetName" value="VOUT_ADG849" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleNormal" value="DefaultWire" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
 Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rotated=Left visible=0 font=Default order=-1
@@ -1185,8 +1185,8 @@ Property name="StyleSelected" value="DefaultSelected" autopos=1 normal=Left rota
 Text value=".SIMULATOR SIMETRIX\n.TRAN 300u\n.SIMULATOR DEFAULT\n"
 LicenseInfo version="8.00p" feats=Basic|AD|Micron|Mcore2|Schematic|Advanced|Sim|Demo|Rtn|SIMPLIS_IF|beta serial=unknown user="unknown" code=unknown product="ADIsimPE" binarch=x86 system="WINNT/6.3/x64/7676669952/4/1/8/291982712"
 SimulatorMode value="SIMetrix"
-View x=-65748 y=-13942 zoomlevel=31 zoom=8 snapgrid=120 offsetX=67958 offsetY=13942
+View x=-67085 y=-13942 zoomlevel=31 zoom=8 snapgrid=120 offsetX=67958 offsetY=13942
 Property name="CurrentMeasureItem" value="Maximum|0|0|0|" type=value
-Property name="UserVersion" value="135" type=value
+Property name="UserVersion" value="139" type=value
 .EndSchematic
 .EndComponent

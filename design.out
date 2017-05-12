@@ -1,6 +1,6 @@
 *************************************************************************************
 ***                                                                               ***
-*** ADIsimPE Version 8.00p (x86) - 09/05/2017 11:02 a. m.                         ***
+*** ADIsimPE Version 8.00p (x86) - 11/05/2017 7:25 p. m.                          ***
 *** Platform: Windows 8.1                                                         ***
 *** Architecture: x64                                                             ***
 *** Serial Number:                                                                ***
@@ -24,7 +24,7 @@ V2 Vee 0 -18
 R1 R1_P R1_N 1.523k
 V3 V3_P 0  Pulse(0 5 0 500n 500n 50u 100u)
 R2 VOUT_FINAL 0 1k
-V4 VIN_8421 0 5 Sin(500m 450m 500k 0 0)
+V4 VIN_8421 0 5 Pulse(0 650m 0 50n 50n 5u 10u)
 R3 R3_P R3_N 9.801k
 V5 +5V 0 5
 X$U2 0 R3_P R3_N VIN_8421 Vee 0 VOUT_8421 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
@@ -403,7 +403,7 @@ D10 50 26     DY
 
 ********************************************************************************
 ***                                                                          ***
-*** Starting Transient analysis at 11:02 a. m.                               ***
+*** Starting Transient analysis at 7:25 p. m.                                ***
 ***                                                                          ***
 *** Analysis card: .TRAN 300u                                                ***
 ***                                                                          ***
@@ -505,11 +505,11 @@ von          2.7          5.5          2
 
 Nominal temperature = 27
 Operating temperature = 27
-Total iterations = 12059
-Transient iterations = 12029
-Transient timepoints = 3262
-Accepted timepoints = 3087
-Total analysis time = 0.719
+Total iterations = 13581
+Transient iterations = 13550
+Transient timepoints = 4454
+Accepted timepoints = 4307
+Total analysis time = 0.828
 Transient time = 0
 Matrix reordering time = 0
 L-U decomposition time = 0
@@ -517,12 +517,12 @@ Matrix solve time = 0
 Load time = 0
 Transient L-U decomp time = 0
 Transient solve time = 0
-Circuit build time = 0
-Simulator initialise time = 0.016
+Circuit build time = 0.015
+Simulator initialise time = 0
 Data write time = 0
 Convergence test time = 0
 LTE time = 0
-JI2 Iterations = 30
+JI2 Iterations = 31
 Diag. GMIN stepping iterations = 0
 Junc. GMIN stepping iterations = 0
 Source stepping iterations = 0
@@ -536,6 +536,6 @@ Number of write buffer faults = 0
 Run statistics
 ==============
 
-Netlist read in time = 0.109
-Total run time = 0.906 seconds
-Analysis concluded 09/05/2017 11:02 a. m.
+Netlist read in time = 0.032
+Total run time = 0.953 seconds
+Analysis concluded 11/05/2017 7:25 p. m.
