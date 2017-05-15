@@ -1,15 +1,15 @@
-*************************************************************************************
-***                                                                               ***
-*** ADIsimPE Version 8.00p (x86) - 11/05/2017 7:25 p. m.                          ***
-*** Platform: Windows 8.1                                                         ***
-*** Architecture: x64                                                             ***
-*** Serial Number:                                                                ***
-*** User:                                                                         ***
-***                                                                               ***
-*** TITLE:   * C:\Users\USUARIO\Documents\GitHub\WaveShaperAD9833\Circuito_1.wxsch***
-*** NETLIST: C:\Users\USUARIO\Documents\GitHub\WaveShaperAD9833\design.net        ***
-***                                                                               ***
-*************************************************************************************
+*************************************************************************************************
+***                                                                                           ***
+*** ADIsimPE Version 8.00p (x86) - 13/05/2017 9:28 a. m.                                      ***
+*** Platform: Windows 8.1                                                                     ***
+*** Architecture: x64                                                                         ***
+*** Serial Number:                                                                            ***
+*** User:                                                                                     ***
+***                                                                                           ***
+*** TITLE:   * C:\Users\USUARIO\Documents\GitHub\WaveShaperAD9833\Amplificador_Del_reloj.wxsch***
+*** NETLIST: C:\Users\USUARIO\Documents\GitHub\WaveShaperAD9833\design.net                    ***
+***                                                                                           ***
+*************************************************************************************************
 
 ********************************************************************************
 ***                                                                          ***
@@ -18,392 +18,31 @@
 ********************************************************************************
 
 #SIMETRIX
-X1 VOUT_AD8421_2 VOUT_FINAL Vcc Vee X1_out Q2_B AD844 pinnames: inp inn vsp vsn out gnd
-V1 Vcc 0 18
-V2 Vee 0 -18
-R1 R1_P R1_N 1.523k
-V3 V3_P 0  Pulse(0 5 0 500n 500n 50u 100u)
-R2 VOUT_FINAL 0 1k
-V4 VIN_8421 0 5 Pulse(0 650m 0 50n 50n 5u 10u)
-R3 R3_P R3_N 9.801k
-V5 +5V 0 5
-X$U2 0 R3_P R3_N VIN_8421 Vee 0 VOUT_8421 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
-Q1 Vcc Q2_B VOUT_FINAL 0 BC107
-X$U3 0 R1_P R1_N VOUT_ADG849 Vee 0 VOUT_AD8421_2 Vcc AD8421 pinnames: IN- RG1 RG2 IN+ VS- REF OUT VS+
-Q2 Vee Q2_B VOUT_FINAL 0 BC160
-X$U4 V3_P +5V 0 VOUT_8421 VOUT_ADG849 0 ADG819 pinnames: IN VDD GND S1 D S2
-.GRAPH VOUT_AD8421_2 curveLabel= VOUT_AD8421_2 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
-.GRAPH V3_P curveLabel= U1-IN nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
-.GRAPH VOUT_FINAL curveLabel= VOUT_FINAL nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+X1 V3_P R2_P VDD 0 VOUT_A1 AD8651 pinnames: inp inn vsp vsn out
+V1 VIN 0  Pulse(0 650m 0 49.50495n 49.50495n 4.950495u 10u)
+V2 VDD 0 3.3
+R1 VOUT_A1 R2_P 100k
+V3 V3_P 0 300m
+R2 R2_P VIN 1K
+V4 V4_P 0  Pulse(0 650m 0 49.50495n 49.50495n 4.950495u 10u)
+R3 R3_P V4_P 1K
+R4 VDD VOUT_TRANSISTOR 1K
+Q1 VOUT_TRANSISTOR R3_P 0 0 Q2N2221
+.GRAPH VIN curveLabel= VIN nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.GRAPH VOUT_A1 curveLabel= VOUT_A1 nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
+.GRAPH VOUT_TRANSISTOR curveLabel= VOUT_TRANSISTOR nowarn=true ylog=auto xlog=auto analysis=tran|ac|dc disabled=false 
 .TRAN 300u
-.SUBCKT ADG819 1 2 3 4 5 6 
-X1 4 5 1 2 3 LOWONSWITCH
-X2 6 5 1 2 3 HIGHONSWITCH
-DINA 1 2 DX
-DINB 3 1 DX
-CIN 1 3 5p
-CC 4 6 0.637p
-.MODEL DX D(IS=1E-12 N=0.5 RS=0.1)
-****************
-* Logic High On Switch
+.ENDS AD8651
 *
-* Connections
-*      101 = S
-*      102 = D
-*      103 = VIN
-*      104 = VDD 
-*      105 = GND
-*****************
-.SUBCKT HIGHONSWITCH  101 102 103 104 105
-x1 103 104 105 108 BUFF
-X2 108 109 104 105 VSENSE
-X3 109 105 110 ENABLEDELAY
-X4 101 102 110 104 105 SWITCH
-*MODELS USED
-*****************
-* BUFF LOGIC
-*
-* Connections
-*      201 = INPUT
-*      202 = VDD
-*      203 = GND
-*      204 = OUTPUT
-*****************
-.SUBCKT BUFF 201 202 203 204
-SBUFF 205 203 201 203 SMOD2
-RBUFF 205 202 5G
-EBUFFER 204 203 205 203 1
-*MODELS USED
-.MODEL SMOD2 VSWITCH(RON=1E-3 ROFF=1E11 VON=0.8 VOFF=2.0)
-.ENDS
-****************
-* Switch
-*
-* Connections
-*      201 = S
-*      202 = D
-*      203 = VIN
-*      204 = VDD 
-*      205 = GND
-*****************
-.SUBCKT SWITCH  201 202 203 204 205 
-*ANALOG SWITCH
-S1 201 202 203 205 SMOD1
-DS1 201 204 DX 
-DS2 205 201 DX
-DD1 202 204 DX
-DD2 205 202 DX
-*ON OFF ISOLATION*
-CSD 201 202 17.952p
-*BANDWIDTH  
-CSB 201 204 100p
-CDB 202 204 100p
-*CHARGE INJECTION
-CGS 201 203 12p
-CGD 202 203 12p
-*MODELS USED
-.MODEL SMOD1 VSWITCH(RON=0.5 ROFF=3.5E11 VON=2 VOFF=0.8)
-.MODEL DX D(IS=1E-12 N=0.5 RS=0.1)
-.ENDS
-*****************
-* ENABLE DELAY
-*
-* Connections
-*      301 = INPUT
-*      302 = COM
-*      303 = OUTPUT
-*****************
-.SUBCKT ENABLEDELAY 301 302 303
-EENBUFFER 304 302 301 302 1
-RFEN 304 306 35k
-CFEN 306 302 2.0p
-DBREAKEN 306 305 DZ
-RBEN 305 304 6k
-EENBUFFEROUT 303 302 306 302 1 
-*MODELS USED
-.MODEL DZ D(IS=1E-14 N=0.04)
-.ENDS
-*****************
-* OPERATING VOLTAGE 
-*
-* Connections
-*      601 = INPUT
-*      602 = OUTPUT
-*      603 = VDD
-*      604 = GND
-*****************
-.SUBCKT VSENSE 601 602 603 604 
-SD1 601 606 603 604 SMOD3
-SD2 606 607 603 604 SMOD4
-RD0 607 604 5G
-EBUFFER 602 604 607 604 1
-*MODELS USED
-.MODEL SMOD3 VSWITCH(RON=1E-3 ROFF=1E11 VON=2.7 VOFF=2.6)
-.MODEL SMOD4 VSWITCH(RON=1E-3 ROFF=1E11 VON=5.5 VOFF=5.6)
-.ENDS
-.ENDS
-****************
-* Logic Low On Switch
-*
-* Connections
-*      101 = S
-*      102 = D
-*      103 = VIN
-*      104 = VDD 
-*      105 = GND
-*****************
-.SUBCKT LOWONSWITCH  101 102 103 104 105
-x1 103 104 105 108 NOTGATE
-X2 108 109 104 105 VSENSE
-X3 109 105 110 ENABLEDELAY
-X4 101 102 110 104 105 SWITCH
-*MODELS USED
-*****************
-* NOT LOGIC
-*
-* Connections
-*      201 = INPUT
-*      202 = VDD
-*      203 = GND
-*      204 = OUTPUT
-*****************
-.SUBCKT NOTGATE 201 202 203 204
-SNOT 205 203 201 203 SMOD2
-RNOT 205 202 5G
-EBUFFER 204 203 205 203 1
-*MODELS USED
-.MODEL SMOD2 VSWITCH(RON=1E-3 ROFF=1E11 VON=2.0 VOFF=0.8)
-.ENDS
-****************
-* Switch
-*
-* Connections
-*      201 = S
-*      202 = D
-*      203 = VIN
-*      204 = VDD 
-*      205 = GND
-*****************
-.SUBCKT SWITCH  201 202 203 204 205 
-*ANALOG SWITCH
-S1 201 202 203 205 SMOD1
-DS1 201 204 DX 
-DS2 205 201 DX
-DD1 202 204 DX
-DD2 205 202 DX
-*ON OFF ISOLATION*
-CSD 201 202 17.952p
-*BANDWIDTH  
-CSB 201 204 100p
-CDB 202 204 100p
-*CHARGE INJECTION
-CGS 201 203 12p
-CGD 202 203 12p
-*MODELS USED
-.MODEL SMOD1 VSWITCH(RON=0.5 ROFF=3.5E11 VON=2 VOFF=0.8)
-.MODEL DX D(IS=1E-12 N=0.5 RS=0.1)
-.ENDS
-*****************
-* ENABLE DELAY
-*
-* Connections
-*      301 = INPUT
-*      302 = COM
-*      303 = OUTPUT
-*****************
-.SUBCKT ENABLEDELAY 301 302 303
-EENBUFFER 304 302 301 302 1
-RFEN 304 306 35k
-CFEN 306 302 2.0p
-DBREAKEN 306 305 DZ
-RBEN 305 304 6k
-EENBUFFEROUT 303 302 306 302 1 
-*MODELS USED
-.MODEL DZ D(IS=1E-14 N=0.04)
-.ENDS
-*****************
-* OPERATING VOLTAGE 
-*
-* Connections
-*      601 = INPUT
-*      602 = OUTPUT
-*      603 = VDD
-*      604 = GND
-*****************
-.SUBCKT VSENSE 601 602 603 604 
-SD1 601 606 603 604 SMOD3
-SD2 606 607 603 604 SMOD4
-RD0 607 604 5G
-EBUFFER 602 604 607 604 1
-*MODELS USED
-.MODEL SMOD3 VSWITCH(RON=1E-3 ROFF=1E11 VON=2.7 VOFF=2.6)
-.MODEL SMOD4 VSWITCH(RON=1E-3 ROFF=1E11 VON=5.5 VOFF=5.6)
-.ENDS
-.ENDS
-.ENDS
-*
-*File: ADG820.cir
-*
-* ADG820 MACROMODEL
-* Description: Converter
-* Generic Desc: Sub 1 Ohm  Low Voltage, SPDT Switches
-* Developed by: Y.WONG 
-* Revision History: 08/10/2012 - Updated to new header style
-* 1.0 (05/2008)
-* Copyright 2012 by Analog Devices, Inc.
-*
-* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model 
-* indicates your acceptance of the terms and provisions in the License Statement.
-*
-* BEGIN Notes:
-*
-* Not Modeled:
-*    
-* Parameters modeled include: 
-*
-* END Notes
-*
-* Connections
-*      1  = IN
-*      2  = VDD
-*      3  = GND
-*      4  = S1 
-*      5  = D
-*      6  = S2
-*****************
-.ENDS AD8421
-.SUBCKT AD844  1 2 99 50 28 12
-*
-* INPUT STAGE
-*
-R1   99  8     1E3
-R2   10 50     1E3
-V1   99  9     11
-D1   9   8     DX
-V2   11 50     11
-D2   10 11     DX
-I1   99  5     258E-6
-I2   4  50     258E-6
-Q1   50  3  5  QP
-Q2   99  3  4  QN
-Q3   8   6 30  QN
-Q4   10  7 30  QP
-R3   5   6     300E3
-R4   4   7     300E3
-*C1   99  6     8.8E-15
-*C2   50  7     8.8E-15
-*
-* INPUT ERROR SOURCES
-* 
-GB1  99  1     POLY(1)  1  22  150E-9  90E-9
-GB2  99 30     POLY(1)  1  22  200E-9  90E-9
-VOS  3   1     50E-6
-LS1  30  2     1E-8
-CS1  99  2     1E-12
-CS2  50  2     1E-12
-*
-EREF 97  0     22  0  1
-*
-* GAIN STAGE & DOMINANT POLE
-*
-R5   12 97     3E6
-C3   12 97     5.5E-12
-G1   97 12     99  8  1E-3
-G2   12 97     10 50  1E-3
-V3   99 13     4.3
-V4   14 50     4.3
-D3   12 13     DX
-D4   14 12     DX
-*
-* POLE AT 70 MHZ
-*
-R8  17 97     1E6
-C4  17 97     3.18E-15
-G4  97 17     12 22  1E-6
-*
-* POLE AT 300 MHZ
-*
-R12 21 97     1E6
-C8  21 97     0.318E-15
-G8  97 21     17 22  1E-6
-*
-* OUTPUT STAGE
-*
-ISY 99 50     5.1E-3
-R13 22 99     16.7E3
-R14 22 50     16.7E3
-R15 27 99     30
-R16 27 50     30
-L2  27 28     6E-8
-G9  25 50     21 27  33.33E-3
-G10 26 50     27 21  33.33E-3
-G11 27 99     99 21  33.33E-3
-G12 50 27     21 50  33.33E-3
-V5  23 27     0.5
-V6  27 24     0.5
-D5  21 23     DX
-D6  24 21     DX
-D7  99 25     DX
-D8  99 26     DX
-D9  50 25     DY
-D10 50 26     DY
-*
-* MODELS USED
-*
-.MODEL QN   NPN(BF=1E9 IS=1E-15)
-.MODEL QP   PNP(BF=1E9 IS=1E-15)
-.MODEL DX   D(IS=1E-15)
-.MODEL DY   D(IS=1E-15 BV=50)
-.ENDS
-*
-*File: ad844a.cir
-*
-* AD844A SPICE Macro-model                 
-* Description: Amplifier
-* Generic Desc: 60 MHz, 2000 V/us   Op Amp
-* Developed by: JCB / PMI
-* Revision History: 08/10/2012 - Updated to new header style
-* 1.0 (07/1991)
-* Copyright 1991, 2012 by Analog Devices, Inc.
-*
-* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
-* indicates your acceptance with the terms and provisions in the License Statement.
-*
-* BEGIN Notes:
-*
-* Not Modeled:
-*    
-* Parameters modeled include:
-* This version of the AD844 model simulates the worst case 
-* parameters of the 'A' grade.  The worst case parameters
-* used correspond to those in the data sheet. 
-*
-* END Notes
-*
-* Node assignments
-*              non-inverting input
-*              | inverting input
-*              | | positive supply
-*              | | |  negative supply
-*              | | |  |  output
-*              | | |  |  |  compensation node
-*              | | |  |  |  |
-.model BC160 pnp ( IS=2.48E-13 VAF=99.6 BF=170 IKF=0.9648 NE=1.7746
-+    ISE=3.464E-12 IKR=0.1 ISC=1.00E-12 NC=1.4 NR=1 BR=10 RC=0.05 CJC=2.00E-11
-+    FC=0.5 MJC=0.37 VJC=0.6 CJE=4.70E-11 MJE=0.44 VJE=0.6 TF=9.70E-10
-+    ITF=1.9 VTF=3 XTF=25 RE=0.2 TR=9.00E-08)
-*From Philips SC04 "Small signal transistors 1991"
-* Hfe vs ic from NS Discrete 1978 @ vce = 10V. PS and MOT data @ vce=1v only. TR  from MPSA56
-.model BC107 npn ( IS=7.59E-15 VAF=73.4 BF=480 IKF=0.0962 NE=1.2665
-+    ISE=3.278E-15 IKR=0.03 ISC=2.00E-13 NC=1.2 NR=1 BR=5 RC=0.25 CJC=6.33E-12
-+    FC=0.5 MJC=0.33 VJC=0.65 CJE=1.25E-11 MJE=0.55 VJE=0.65 TF=4.26E-10
-+    ITF=0.6 VTF=3 XTF=20 RB=100 IRB=0.0001 RBM=10 RE=0.5 TR=1.50E-07)
-*From Philips SC04 "Small signal transistors 1991"
-* Base spreading parameters (RB,IRB,RBM) estimated. TR derived using BCY58 data
+*$
+.model Q2N2221 npn ( IS=2.48E-13 VAF=73.9 BF=160 IKF=0.1962 NE=1.2069
++    ISE=9.239E-14 IKR=0.02 ISC=5.00E-09 NC=2 NR=1 BR=5 RC=0.3 CJC=7.00E-12
++    FC=0.5 MJC=0.5 VJC=0.5 CJE=1.80E-11 MJE=0.5 VJE=1 TF=4.00E-10
++    ITF=2 VTF=10 XTF=10 RE=0.4 TR=4.00E-08)
 
 ********************************************************************************
 ***                                                                          ***
-*** Starting Transient analysis at 7:25 p. m.                                ***
+*** Starting Transient analysis at 9:28 a. m.                                ***
 ***                                                                          ***
 *** Analysis card: .TRAN 300u                                                ***
 ***                                                                          ***
@@ -430,74 +69,35 @@ Matrix Solver             UF KLU Version 1.1
 ********************************************************************************
 Model parameters for devices of type BJT
 ========================================
-Model:       BC107        BC160        X1.QN        X1.QP        
+Model:       Q2N2221      
 
-_is          7.59f        248f         1f           1f           
-bf           480          170          1G           1G           
-br           5            10           1            1            
-cjc          6.33p        20p          0            0            
-cje          12.5p        47p          0            0            
-fc           500m         500m         500m         500m         
-ikf          96.2m        964.8m       0            0            
-ikr          30m          100m         0            0            
-irb          100u         0            0            0            
-isc          200f         1p           0            0            
-ise          3.278f       3.464p       0            0            
-itf          600m         1.9          0            0            
-mjc          330m         370m         330m         330m         
-mje          550m         440m         330m         330m         
-nc           1.2          1.4          2            2            
-ne           1.2665       1.7746       1.5          1.5          
-nr           1            1            1            1            
-rb           100          0            0            0            
-rbm          10           0            0            0            
-rc           250m         50m          0            0            
-re           500m         200m         0            0            
-tf           426p         970p         0            0            
-tr           150n         90n          0            0            
-vaf          73.4         99.6         0            0            
-vjc          650m         600m         750m         750m         
-vje          650m         600m         750m         750m         
-vtf          3            3            0            0            
-xtf          20           25           0            0            
+_is          248f         
+bf           160          
+br           5            
+cjc          7p           
+cje          18p          
+fc           500m         
+ikf          196.2m       
+ikr          20m          
+isc          5n           
+ise          92.39f       
+itf          2            
+mjc          500m         
+mje          500m         
+nc           2            
+ne           1.2069       
+nr           1            
+rc           300m         
+re           400m         
+tf           400p         
+tr           40n          
+vaf          73.9         
+vjc          500m         
+vje          1            
+vtf          10           
+xtf          10           
 
 
-Model parameters for devices of type Diode
-==========================================
-Model:       U4.DX        U4.X1.X3.DZ  U4.X1.X4.DX  U4.X2.X3.DZ  U4.X2.X4.DX  
-
-bv           0            0            0            0            0            
-is           1p           10f          1p           10f          1p           
-kf           0            0            0            0            0            
-n            500m         40m          500m         40m          500m         
-rs           100m         0            100m         0            100m         
-
-Model:       X1.DX        X1.DY        
-
-bv           0            50           
-is           1f           1f           
-kf           0            0            
-n            1            1            
-rs           0            0            
-
-
-Model parameters for devices of type Switch
-===========================================
-Model:       U4.X1.x1.    U4.X1.X2.    U4.X1.X2.    U4.X1.X4.    U4.X2.x1.    
-             SMOD2        SMOD3        SMOD4        SMOD1        SMOD2        
-
-roff         100G         100G         100G         350G         100G         
-ron          1m           1m           1m           500m         1m           
-voff         800m         2.6          5.6          800m         2            
-von          2            2.7          5.5          2            800m         
-
-Model:       U4.X2.X2.    U4.X2.X2.    U4.X2.X4.    
-             SMOD3        SMOD4        SMOD1        
-
-roff         100G         100G         350G         
-ron          1m           1m           500m         
-voff         2.6          5.6          800m         
-von          2.7          5.5          2            
 
 
 Analysis statistics
@@ -505,11 +105,11 @@ von          2.7          5.5          2
 
 Nominal temperature = 27
 Operating temperature = 27
-Total iterations = 13581
-Transient iterations = 13550
-Transient timepoints = 4454
-Accepted timepoints = 4307
-Total analysis time = 0.828
+Total iterations = 10715
+Transient iterations = 10693
+Transient timepoints = 2805
+Accepted timepoints = 2616
+Total analysis time = 0.219
 Transient time = 0
 Matrix reordering time = 0
 L-U decomposition time = 0
@@ -517,25 +117,25 @@ Matrix solve time = 0
 Load time = 0
 Transient L-U decomp time = 0
 Transient solve time = 0
-Circuit build time = 0.015
+Circuit build time = 0
 Simulator initialise time = 0
 Data write time = 0
 Convergence test time = 0
 LTE time = 0
-JI2 Iterations = 31
+JI2 Iterations = 22
 Diag. GMIN stepping iterations = 0
 Junc. GMIN stepping iterations = 0
 Source stepping iterations = 0
 PTA iterations = 0
-Number of matrix fill ins = -408
-Number of initial matrix elements = 917
-Circuit equations = 291
-State vector size = 1054
+Number of matrix fill ins = -71
+Number of initial matrix elements = 220
+Circuit equations = 61
+State vector size = 362
 Number of write buffer faults = 0
 
 Run statistics
 ==============
 
-Netlist read in time = 0.032
-Total run time = 0.953 seconds
-Analysis concluded 11/05/2017 7:25 p. m.
+Netlist read in time = 0
+Total run time = 0.469 seconds
+Analysis concluded 13/05/2017 9:28 a. m.
